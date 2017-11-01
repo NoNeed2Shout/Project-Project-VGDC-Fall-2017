@@ -21,8 +21,9 @@ public class Projectile : MonoBehaviour {
         }
         else
         {
-            position = new Vector2(position.x + (speed * Mathf.Cos(Mathf.Deg2Rad * direction)), position.y - (speed * Mathf.Sin(Mathf.Deg2Rad * direction)));
-            shot.transform.position = position;
+        //    Vector2 position = new Vector2(position.transform.position.x + (speed * Mathf.Cos(Mathf.Deg2Rad * direction)), position.transform.position.y - (speed * Mathf.Sin(Mathf.Deg2Rad * direction)));
+        //    shot.transform.position = position;
+		// fix this its messing everything up 
         }
     }
     public void spawnAimed(Vector2 p,float s, float xAway,float yAway)
