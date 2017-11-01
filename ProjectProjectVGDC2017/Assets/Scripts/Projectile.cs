@@ -4,12 +4,13 @@ using UnityEngine;
 
 public class Projectile : MonoBehaviour {
     public GameObject shot;
+    private Vector2 position;
     private float speed, direction, xAwayFromTarget, yAwayFromTarget;
     private bool aimed;
     //xAway and yAway for shots aimed at a position, direction for shots fired at a specific angle (360 degrees)
 	// Use this for initialization
 	void Start () {
-		
+        position = shot.transform.position;
 	}
 	
 	// Update is called once per frame
@@ -21,9 +22,8 @@ public class Projectile : MonoBehaviour {
         }
         else
         {
-        //    Vector2 position = new Vector2(position.transform.position.x + (speed * Mathf.Cos(Mathf.Deg2Rad * direction)), position.transform.position.y - (speed * Mathf.Sin(Mathf.Deg2Rad * direction)));
-        //    shot.transform.position = position;
-		// fix this its messing everything up 
+            position = new Vector2(position.x + (speed * Mathf.Cos(Mathf.Deg2Rad * direction)), position.y - (speed * Mathf.Sin(Mathf.Deg2Rad * direction)));
+            shot.transform.position = position;
         }
     }
     public void spawnAimed(Vector2 p,float s, float xAway,float yAway)
