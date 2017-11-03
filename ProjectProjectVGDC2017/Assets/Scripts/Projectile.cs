@@ -3,42 +3,38 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Projectile : MonoBehaviour {
-    public GameObject shot;
     private Vector2 position;
-    private float speed, direction, xAwayFromTarget, yAwayFromTarget;
+    private float speed, angle;
+    private Vector2 direction;
     private bool aimed;
-    //xAway and yAway for shots aimed at a position, direction for shots fired at a specific angle (360 degrees)
+    //angle for shots fired at a specific angle (360 degrees)
 	// Use this for initialization
 	void Start () {
-        position = shot.transform.position;
 	}
 	
 	// Update is called once per frame
 	void Update () {
         if (aimed)
         {
-            direction = (Mathf.Rad2Deg * (Mathf.Atan2(xAwayFromTarget, yAwayFromTarget)) - 90);
-            shot.transform.position = new Vector2(shot.transform.position.x + (speed * Mathf.Cos(Mathf.Deg2Rad * (Mathf.Rad2Deg * (Mathf.Atan2(xAwayFromTarget, yAwayFromTarget)) - 90))), shot.transform.position.y - (speed * Mathf.Sin(Mathf.Deg2Rad * (Mathf.Rad2Deg * (Mathf.Atan2(xAwayFromTarget, yAwayFromTarget)) - 90))));
+            transform.position = Vector2.MoveTowards(transform.position,(Vector2)transform.position-direction,speed);
         }
         else
         {
-            position = new Vector2(position.x + (speed * Mathf.Cos(Mathf.Deg2Rad * direction)), position.y - (speed * Mathf.Sin(Mathf.Deg2Rad * direction)));
-            shot.transform.position = position;
+            transform.position = new Vector2(transform.position.x + (speed * Mathf.Cos(Mathf.Deg2Rad * angle)), transform.position.y - (speed * Mathf.Sin(Mathf.Deg2Rad * angle)));
         }
     }
-    public void spawnAimed(Vector2 p,float s, float xAway,float yAway)
+    public void spawnAimed(Vector2 p,float s, Vector2 target)
     {
-        shot.transform.position = p;
+        transform.position = p;
         speed = s;
-        xAwayFromTarget = xAway;
-        yAwayFromTarget = yAway;
+        direction = (Vector2)transform.position-target;
         aimed = true;
     }
     public void spawnDirectional(Vector2 p, float s, float dir)
     {
-        shot.transform.position = p;
+        transform.position = p;
         speed = s;
-        direction = dir;
+        angle = dir;
         aimed = false;
     }
     void OnTriggerEnter2D(Collider2D other)
@@ -47,5 +43,9 @@ public class Projectile : MonoBehaviour {
         {
             //Stuff happens when hitting player
         }
+    }
+    public Vector2 getPosition()
+    {
+        return transform.position;
     }
 }
