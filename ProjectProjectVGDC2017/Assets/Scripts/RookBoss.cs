@@ -45,13 +45,16 @@ public class RookBoss : MonoBehaviour {
             }
             else if (pattern == 2) //throw projectiles at the player. Dunno if he'll move during it yet
             {
-                if (timer % 5 == 0&&fired<3) //3 shot burst for now
+                if (timer % 10 == 0&&fired<4) //4 shot burst for now
                 {
                     ++fired;
                     shots.Add(Instantiate(shot));
-                    shots[shots.Count - 1].GetComponent<Projectile>().spawnAimed(boss.transform.position, .09f, player.transform.position);
+                    if(fired%2==0)
+                        shots[shots.Count - 1].GetComponent<Projectile>().spawnAimed(boss.transform.position+new Vector3(.5f,0,0), .09f, player.transform.position);
+                    else
+                        shots[shots.Count - 1].GetComponent<Projectile>().spawnAimed(boss.transform.position-new Vector3(.5f,0,0), .09f, player.transform.position);
                 }
-                if (timer % 30 == 0&&fired==3)
+                if (timer % 81 == 0&&fired==4)
                     fired=0;
             }
         }
