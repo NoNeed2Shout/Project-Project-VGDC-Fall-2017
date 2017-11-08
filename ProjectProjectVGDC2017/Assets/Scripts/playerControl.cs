@@ -2,17 +2,34 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
+
 public class playerControl : MonoBehaviour {
 
 	public float moveSpeed;
+	private Animator anim;
+
+
 
 	// Use this for initialization
 	void Start () {
-		
+		anim = GetComponent<Animator> ();
 	}
 	
 	// Update is called once per frame
 	void Update () {
+
+
+		//player attacks
+		if (Input.GetKeyDown(KeyCode.U)){
+			Debug.Log("U key was pressed.");
+		}
+		if (Input.GetKeyDown(KeyCode.I)){
+			Debug.Log("I key was pressed.");
+		}
+
+
+		//player movements
 		if (Input.GetAxisRaw ("Horizontal") > 0.5f || Input.GetAxisRaw("Horizontal") < -0.5f) 
 		{
 			transform.Translate (new Vector3 (Input.GetAxisRaw ("Horizontal") * moveSpeed * Time.deltaTime,0f,0f));
@@ -23,5 +40,8 @@ public class playerControl : MonoBehaviour {
 			transform.Translate (new Vector3 (0f,Input.GetAxisRaw ("Vertical") * moveSpeed * Time.deltaTime,0f));
 
 		}
+
+		anim.SetFloat ("moveX", Input.GetAxisRaw ("Horizontal"));
+		anim.SetFloat ("moveY", Input.GetAxisRaw ("Vertical"));
 	}
 }
