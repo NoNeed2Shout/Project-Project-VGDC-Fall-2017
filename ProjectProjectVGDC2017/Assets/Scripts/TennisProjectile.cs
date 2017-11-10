@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Placeholder : MonoBehaviour {
+public class TennisProjectile : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
