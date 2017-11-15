@@ -13,24 +13,21 @@ public class playerControl : MonoBehaviour {
 	private bool playerMoving;
 
 	private Vector2 lastMove;
+	private bool lightAttack;
+
 
 	// Use this for initialization
 	void Start () {
 		anim = GetComponent<Animator> ();
+		lastMove.y = -1f;
 
 	}
 	
 	// Update is called once per frame
 	void Update () {
-
+		lightAttack = false;
 		playerMoving = false;
-		//player attacks
-		if (Input.GetKeyDown(KeyCode.U)){
-			Debug.Log("U key was pressed.");
-		}
-		if (Input.GetKeyDown(KeyCode.I)){
-			Debug.Log("I key was pressed.");
-		}
+
 
 
 		//player movements
@@ -47,10 +44,19 @@ public class playerControl : MonoBehaviour {
 			lastMove = new Vector2 (0f, Input.GetAxisRaw ("Vertical"));
 		}
 
+		//player attacks
+		if (Input.GetKeyDown(KeyCode.U)){
+			lightAttack = true;
+		}
+		if (Input.GetKeyDown(KeyCode.I)){
+			Debug.Log("I key was pressed.");
+		}
+
 		anim.SetFloat ("moveX", Input.GetAxisRaw ("Horizontal"));
 		anim.SetFloat ("moveY", Input.GetAxisRaw ("Vertical"));
 		anim.SetBool("playerMoving",playerMoving);
 		anim.SetFloat ("lastMoveX", lastMove.x);
 		anim.SetFloat ("lastMoveY", lastMove.y);
+		anim.SetBool("animateAttack",lightAttack);
 	}
 }
