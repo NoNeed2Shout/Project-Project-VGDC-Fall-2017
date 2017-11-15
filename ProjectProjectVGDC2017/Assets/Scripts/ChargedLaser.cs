@@ -8,14 +8,15 @@ public class ChargedLaser : MonoBehaviour {
     public GameObject boss;
     // Use this for initialization
     void Start() {
-        xScale = 1;
+        xScale = .25f;
         yScale = this.transform.localScale.x;
+        boss = GameObject.FindGameObjectWithTag("Boss");
     }
 
     // Update is called once per frame
     void Update() {
-        this.transform.position = new Vector2(boss.transform.position.x, y);
-        this.transform.localScale = new Vector2(xScale, yScale);
+        transform.position = new Vector2(boss.transform.position.x, y);
+        transform.localScale = new Vector2(xScale, yScale);
         if (charging == 0) //actually charging - if boss should match player's x during this time, do that in the boss script
         {
             --timeLeft;
@@ -26,7 +27,7 @@ public class ChargedLaser : MonoBehaviour {
         {
             //may want the y stuff to be constant
             yScale += growthRate; //drops a line down
-            y -= growthRate / 100; //tentative, change in y since scale increases up and down
+            y -= growthRate/2; //tentative, change in y since scale increases up and down
             --timeGrow;
             if (timeGrow == 0)
                 charging = 2;
@@ -35,7 +36,7 @@ public class ChargedLaser : MonoBehaviour {
         {
             if (maxWidth > this.transform.localScale.x) //actually fires - laser expands scale to maxWidth, stays until timeStays runs out
             {
-                xScale += growthRate;
+                xScale += growthRate/10;
             }
             --timeStays;
             if (timeStays == 0)

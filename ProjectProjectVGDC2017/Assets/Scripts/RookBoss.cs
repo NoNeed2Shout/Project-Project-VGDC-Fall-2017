@@ -10,9 +10,10 @@ public class RookBoss : MonoBehaviour {
     //I'm numbering phases in the order I create them, I guess. phase 1: aimed projectiles. phase 2: move side-to-side, unaimed projectiles
     
     //put in a berserk bool in case we want to make the boss have a low hp rage mode or desperation attack
-    private int health=100,maxHealth=100,timer,fired=0;//fired to be used for bursts of projectiles
-    public int pattern;
-    private bool moving=false,berserk=false,timing=true;
+    private int health=100,maxHealth=100,fired=0;//fired to be used for bursts of projectiles
+    public int pattern, timer;
+    private bool moving=false,berserk=false;
+    public bool timing;
     private float moveSpeed=.05f; //I don't plan to use physics when moving these guys. May need to add a baseMoveSpeed if we want to have movement
     //accelerate during some attacks
     public GameObject shot,boss,player,laserPrefab;
@@ -24,7 +25,7 @@ public class RookBoss : MonoBehaviour {
 	void Start () {
         move(0);
         shots = new List<GameObject>();
-        pattern = (int)(Random.value * 2)+1; //This means 2 different patterns
+        changePattern();
         //change what Random.value is multiplied by to change the number of patterns - make the patterns first!
         timer = 100; //Leave it like this for now. If we want patterns to take different amount of times, use if statements later
     }
@@ -38,13 +39,13 @@ public class RookBoss : MonoBehaviour {
         {
             if (pattern == 1) //move back and forth while throwing projectiles straight down
             {
-                if (boss.transform.position.x <= -3 || boss.transform.position.x >= 3)
+                if (transform.position.x <= -3 || transform.position.x >= 3)
                     moveSpeed = -moveSpeed;
                 move(1);
                 if (timer % 30 == 0) //Adds a projectile once every 30 frames
                 {
                     shots.Add(Instantiate(shot));
-                    shots[shots.Count - 1].GetComponent<Projectile>().spawnDirectional(boss.transform.position, .1f, 90);
+                    shots[shots.Count - 1].GetComponent<Projectile>().spawnDirectional(transform.position, .1f, 90);
                 }
             }
             else if (pattern == 2) //throw projectiles at the player. Dunno if he'll move during it yet
@@ -54,9 +55,9 @@ public class RookBoss : MonoBehaviour {
                     ++fired;
                     shots.Add(Instantiate(shot));
                     if (fired % 2 == 0)
-                        shots[shots.Count - 1].GetComponent<Projectile>().spawnAimed(boss.transform.position + new Vector3(.5f, 0, 0), .09f, player.transform.position);
+                        shots[shots.Count - 1].GetComponent<Projectile>().spawnAimed(transform.position + new Vector3(.5f, 0, 0), .09f, player.transform.position);
                     else
-                        shots[shots.Count - 1].GetComponent<Projectile>().spawnAimed(boss.transform.position - new Vector3(.5f, 0, 0), .09f, player.transform.position);
+                        shots[shots.Count - 1].GetComponent<Projectile>().spawnAimed(transform.position - new Vector3(.5f, 0, 0), .09f, player.transform.position);
                 }
                 if (timer % 81 == 0 && fired == 4)
                     fired = 0;
@@ -64,26 +65,30 @@ public class RookBoss : MonoBehaviour {
             else if (pattern == 3) //charge a laser while tracking the player. Stop moving while firing (thin line drops down). Damage only
                 //when laser is expanding or full
             {
+                if (laser == null)
+                {
+                    timing = false;
+                    laser = Instantiate(laserPrefab);
+                    laser.GetComponent<ChargedLaser>().spawnCharge(transform.position.y, 2, 1, 60, 20, 40);
+                }
+                if (laser.GetComponent<ChargedLaser>().getPhase() == 0)
+                    transform.position = Vector2.MoveTowards(transform.position, new Vector2(player.transform.position.x, transform.position.y), Mathf.Abs(moveSpeed*2));
                 //gonna have to use Vector2.MoveTowards while tracking (when laser.getComponent<ChargedLaser>().getPhase()==0)
                 //speed to be determined
-                //do laser=Instantiate(laserPrefab); then laser.getComponent<ChargedLaser>().spawnCharge(y,maxWidth,expansion rate,charging time, prelaunch time (makde it short!), firing time)
+                //do laser=Instantiate(laserPrefab); then laser.getComponent<ChargedLaser>().spawnCharge(y,maxWidth,vertical expansion rate,charging time, prelaunch time (makde it short!), firing time)
                 //destroy laser at the end of the pattern
                 //During this pattern timer shouldn't decrement, set timer to 0 when laser is destroyed
-                timing = true;//placeholder for now, although code currently doesn't let pattern = 3
+                if (laser.GetComponent<ChargedLaser>().getPhase() == 3)
+                {
+                    timing = true;
+                    timer = 1;
+                    Destroy(laser);
+                }
             }
         }
         else
         {
-            pattern = (int)(Random.value * 2)+1; //If we want some patterns to follow others, this can be changed to if-elses too
-            timer = 100; //Same as in Start for now
-            if (pattern == 3)
-            {
-                timing = false;
-            }
-            else
-            {
-                timing = true;
-            }
+            changePattern();
         }
         for (int i = 0; i < shots.Count; ++i)
         {
@@ -99,17 +104,23 @@ public class RookBoss : MonoBehaviour {
         }
 	}
 
+    void changePattern()
+    {
+            pattern = (int)(Random.value * 3) + 1; //If we want some patterns to follow others, this can be changed to if-elses too
+            timer = 100; //Same as in Start for now
+    }
+
     void move(int direction) //for now, 0=vertical,1=horizontal. Multiply moveSpeed by -1 to change direction
     //Maybe we'll need specific angles for the knight, but the rook and bishop bosses can probably make do with 0-3
     {
         if (direction == 0)
-            boss.transform.position = new Vector2(boss.transform.position.x,boss.transform.position.y+moveSpeed);
+            transform.position = new Vector2(transform.position.x, transform.position.y+moveSpeed);
         else if(direction==1)
-            boss.transform.position = new Vector2(boss.transform.position.x+moveSpeed, boss.transform.position.y);
+            transform.position = new Vector2(transform.position.x+moveSpeed, transform.position.y);
         //else if(direction==2)
-        //    boss.transform.position = new Vector2(boss.transform.position.x, boss.transform.position.y - moveSpeed);
+        //    transform.position = new Vector2(transform.position.x, transform.position.y - moveSpeed);
         //else
-        //    boss.transform.position = new Vector2(boss.transform.position.x-moveSpeed, boss.transform.position.y);
+        //    transform.position = new Vector2(transform.position.x-moveSpeed, transform.position.y);
     }
 
     void OnTriggerEnter2D(Collider2D other)
