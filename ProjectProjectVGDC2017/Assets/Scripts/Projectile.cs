@@ -37,15 +37,35 @@ public class Projectile : MonoBehaviour {
         angle = dir;
         aimed = false;
     }
+    public Vector2 getPosition()
+    {
+        return transform.position;
+    }
+    public float getSpeed()
+    {
+        return speed;
+    }
+    public void incrementSpeed(float increment)
+    {
+        speed += increment;
+    }
+    public void setSpeed(float newSpeed)
+    {
+        speed = newSpeed;
+    }
+    public Vector2 getDirection()
+    {
+        return direction;
+    }
+    public void setDirection(Vector2 v)
+    {
+        direction = v;
+    }
     void OnTriggerEnter2D(Collider2D other)
     {
         if (other.gameObject.tag == "Player")
         {
             //Stuff happens when hitting player
         }
-    }
-    public Vector2 getPosition()
-    {
-        return transform.position;
     }
 }
