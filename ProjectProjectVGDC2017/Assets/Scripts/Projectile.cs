@@ -5,7 +5,7 @@ using UnityEngine;
 public class Projectile : MonoBehaviour {
     private Vector2 position;
     private float speed, angle;
-    private Vector2 direction;
+    public Vector2 direction;
     private bool aimed;
     //angle for shots fired at a specific angle (360 degrees)
 	// Use this for initialization

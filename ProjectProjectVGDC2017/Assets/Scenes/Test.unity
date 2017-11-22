@@ -202,9 +202,37 @@ Prefab:
       propertyPath: m_TagString
       value: Boss
       objectReference: {fileID: 0}
+    - target: {fileID: 114283849315729960, guid: 74e8cc6ac25778848a6aac662f5ea481,
+        type: 2}
+      propertyPath: boss
+      value: 
+      objectReference: {fileID: 672542901}
+    - target: {fileID: 114283849315729960, guid: 74e8cc6ac25778848a6aac662f5ea481,
+        type: 2}
+      propertyPath: laserPrefab
+      value: 
+      objectReference: {fileID: 1387176623136288, guid: 3a3618d8f4e50fd43bcfdca96bb4f307,
+        type: 2}
+    - target: {fileID: 114283849315729960, guid: 74e8cc6ac25778848a6aac662f5ea481,
+        type: 2}
+      propertyPath: shot
+      value: 
+      objectReference: {fileID: 1038325788151240, guid: 7df4da145bc3033489c64629be226b8a,
+        type: 2}
+    - target: {fileID: 114283849315729960, guid: 74e8cc6ac25778848a6aac662f5ea481,
+        type: 2}
+      propertyPath: tennisPrefab
+      value: 
+      objectReference: {fileID: 1621252669776232, guid: 9447385139750774d97d722c419918ba,
+        type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 74e8cc6ac25778848a6aac662f5ea481, type: 2}
   m_IsPrefabParent: 0
+--- !u!1 &672542901 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1967176659383986, guid: 74e8cc6ac25778848a6aac662f5ea481,
+    type: 2}
+  m_PrefabInternal: {fileID: 672542900}
 --- !u!1 &1789974516
 GameObject:
   m_ObjectHideFlags: 0

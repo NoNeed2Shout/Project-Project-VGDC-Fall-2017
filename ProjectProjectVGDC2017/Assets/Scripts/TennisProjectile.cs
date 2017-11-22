@@ -5,7 +5,7 @@ using UnityEngine;
 public class TennisProjectile : Projectile {
     //private int reflectsLeft = 4;
     //Above line would be for requiring the player to hit the shot back and forth with the boss
-    private bool reflected = false;
+    public bool reflected = false;
     private GameObject boss, player;
 	// Use this for initialization
 
@@ -17,13 +17,13 @@ public class TennisProjectile : Projectile {
 	
 	// Update is called once per frame
 	void Update () {
-        if (reflected)
+        if (!reflected)
         {
-            setDirection(player.transform.position);
+            setDirection(transform.position-player.transform.position); //should move straight at player initially
         }
         else
         {
-            setDirection(boss.transform.position);
+            setDirection(transform.position-boss.transform.position); //will move straight at boss upon reflect
         }
         transform.position = Vector2.MoveTowards(transform.position, (Vector2)transform.position - getDirection(), getSpeed());
     }
@@ -48,10 +48,9 @@ public class TennisProjectile : Projectile {
             }
         }
     }
-    public void spawnAimed(Vector2 p, float s, GameObject target)
+    public void spawnAimed(Vector2 p, float s) //use only spawnAimed for this
     {
         transform.position = p;
         setSpeed(s);
-        player = target;
     }
 }

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Boss : MonoBehaviour {
+public class RookBoss : MonoBehaviour {
     //not used to bosses rotating between patterns so my current idea is that the int for pattern determines the pattern currently used
     //timer is how much time left on the pattern, and if there are specific actions (eg projectiles spawning) then they spawn on
     //timer%something
@@ -10,10 +10,8 @@ public class Boss : MonoBehaviour {
     //I'm numbering phases in the order I create them, I guess. phase 1: aimed projectiles. phase 2: move side-to-side, unaimed projectiles
 
     //put in a berserk bool in case we want to make the boss have a low hp rage mode or desperation attack - not looking likely right now
-    private int health=100,maxHealth=100,fired=0,phasesUntilTennis=4;//fired to be used for bursts of projectiles
-    public int pattern, timer;
-    private bool moving=false,berserk=false;
-    public bool timing;
+    private int health=100,maxHealth=100,fired=0,phasesUntilTennis=4, pattern, timer;//fired to be used for bursts of projectiles
+    private bool moving=false,berserk=false,timing=true;
     private float moveSpeed=.05f; //I don't plan to use physics when moving these guys. May need to add a baseMoveSpeed if we want to have movement
     //accelerate during some attacks
     public GameObject shot,boss,player,laserPrefab,tennisPrefab;
@@ -37,6 +35,8 @@ public class Boss : MonoBehaviour {
             --timer;
         if (phasesUntilTennis == 0)
         {
+            tennis = Instantiate(tennisPrefab);
+            tennis.GetComponent<TennisProjectile>().spawnAimed(boss.transform.position,.05f);
             phasesUntilTennis = 5; //defaulting to 4+1 for now so the shot will be fired again 4 phases after the phase it spawned in at earliest (see changePattern)
         }
         if (timer != 0)
@@ -59,9 +59,9 @@ public class Boss : MonoBehaviour {
                     ++fired;
                     shots.Add(Instantiate(shot));
                     if (fired % 2 == 0)
-                        shots[shots.Count - 1].GetComponent<Projectile>().spawnAimed(transform.position + new Vector3(.5f, 0, 0), .09f, player.transform.position);
+                        shots[shots.Count - 1].GetComponent<Projectile>().spawnAimed(transform.position + new Vector3(.5f, 0, 0), .15f, player.transform.position);
                     else
-                        shots[shots.Count - 1].GetComponent<Projectile>().spawnAimed(transform.position - new Vector3(.5f, 0, 0), .09f, player.transform.position);
+                        shots[shots.Count - 1].GetComponent<Projectile>().spawnAimed(transform.position - new Vector3(.5f, 0, 0), .15f, player.transform.position);
                 }
                 if (timer % 81 == 0 && fired == 4) //allows a wait time so a pattern 2 following a pattern 2 will feel like 2 4-shot bursts instead of 1 8-shot
                     fired = 0;
@@ -100,6 +100,11 @@ public class Boss : MonoBehaviour {
                 if (x>5||x<-5||y>5||y<-5) //Destroys shots that go out of bounds
                     Destroy(s);
             }
+        }
+        if (tennis != null)
+        {
+            if (tennis.transform.position.x > 5 || tennis.transform.position.x < -5 || tennis.transform.position.y > 5 || tennis.transform.position.y < -5)
+                Destroy(tennis);
         }
 	}
 
