@@ -5,7 +5,7 @@ using UnityEngine;
 public class Projectile : MonoBehaviour {
     private Vector2 position;
     private float speed, angle;
-    private Vector2 direction;
+    public Vector2 direction;
     private bool aimed;
     //angle for shots fired at a specific angle (360 degrees)
 	// Use this for initialization
@@ -37,6 +37,30 @@ public class Projectile : MonoBehaviour {
         angle = dir;
         aimed = false;
     }
+    public Vector2 getPosition()
+    {
+        return transform.position;
+    }
+    public float getSpeed()
+    {
+        return speed;
+    }
+    public void incrementSpeed(float increment)
+    {
+        speed += increment;
+    }
+    public void setSpeed(float newSpeed)
+    {
+        speed = newSpeed;
+    }
+    public Vector2 getDirection()
+    {
+        return direction;
+    }
+    public void setDirection(Vector2 v)
+    {
+        direction = v;
+    }
     void OnTriggerEnter2D(Collider2D other)
     {
         if (other.gameObject.tag == "Player")
@@ -44,9 +68,5 @@ public class Projectile : MonoBehaviour {
             //Stuff happens when hitting player
 			Debug.Log("Projectile hit player");
         }
-    }
-    public Vector2 getPosition()
-    {
-        return transform.position;
     }
 }
