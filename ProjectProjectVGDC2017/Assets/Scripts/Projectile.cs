@@ -42,6 +42,7 @@ public class Projectile : MonoBehaviour {
         if (other.gameObject.tag == "Player")
         {
             //Stuff happens when hitting player
+			Debug.Log("Projectile hit player");
         }
     }
     public Vector2 getPosition()

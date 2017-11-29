@@ -419,11 +419,13 @@ AnimatorState:
   m_SpeedParameterActive: 0
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
+  m_TimeParameterActive: 0
   m_Motion: {fileID: 206036521066249512}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
+  m_TimeParameter: 
 --- !u!1102 &1102199898662435132
 AnimatorState:
   serializedVersion: 5
@@ -443,11 +445,13 @@ AnimatorState:
   m_SpeedParameterActive: 0
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
+  m_TimeParameterActive: 0
   m_Motion: {fileID: 206238959440733716}
   m_Tag: 
   m_SpeedParameter: lastMoveX
   m_MirrorParameter: playerMoving
   m_CycleOffsetParameter: 
+  m_TimeParameter: 
 --- !u!1102 &1102649620898246298
 AnimatorState:
   serializedVersion: 5
@@ -468,11 +472,13 @@ AnimatorState:
   m_SpeedParameterActive: 0
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
+  m_TimeParameterActive: 0
   m_Motion: {fileID: 206975409189653410}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
+  m_TimeParameter: 
 --- !u!1107 &1107107475348171268
 AnimatorStateMachine:
   serializedVersion: 5

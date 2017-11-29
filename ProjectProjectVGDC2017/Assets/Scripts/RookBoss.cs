@@ -25,7 +25,9 @@ public class RookBoss : MonoBehaviour {
 	void Start () {
         move(0);
         shots = new List<GameObject>();
-        changePattern();
+        //changePattern();
+		//only works properly when pattern = 3?
+		pattern = 3;
         //change what Random.value is multiplied by to change the number of patterns - make the patterns first!
         timer = 100; //Leave it like this for now. If we want patterns to take different amount of times, use if statements later
     }
@@ -123,9 +125,12 @@ public class RookBoss : MonoBehaviour {
         //    transform.position = new Vector2(transform.position.x-moveSpeed, transform.position.y);
     }
 
-    void OnTriggerEnter2D(Collider2D other)
-    {
-        //stuff about boss getting hit by sword and/or triggering contact damage to player goes here
-        //projectiles created by boss will need to have their own script, sprite
-    }
+	void OnTriggerEnter2D(Collider2D other)
+	{
+		//stuff about boss getting hit by sword and/or triggering contact damage to player goes here
+		//projectiles created by boss will need to have their own script, sprite
+		if (other.gameObject.CompareTag("playerAttack")) {
+			Debug.Log ("Attacked");
+		}
+	}
 }
