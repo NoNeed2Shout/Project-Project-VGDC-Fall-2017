@@ -45,6 +45,11 @@ public class TennisProjectile : Projectile {
         {
             if (other.gameObject.tag == "Boss")
             {
+                other.GetComponent<RookBoss>().takeDamage(34);//since I've set it to 100 max health, for now each hit will be 1/3 of health
+            }
+            else if (other.gameObject.tag == "Player")
+            {
+                //player takes damage
             }
         }
     }
