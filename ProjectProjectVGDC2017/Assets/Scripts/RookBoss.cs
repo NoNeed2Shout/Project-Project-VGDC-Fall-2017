@@ -89,11 +89,12 @@ public class RookBoss : MonoBehaviour {
                     }
                 }
             }
+			else
+			{
+				changePattern();
+			}
         }
-        else
-        {
-            changePattern();
-        }
+        
         for (int i = 0; i < shots.Count; ++i)
         {
             GameObject s = shots[i];
@@ -110,6 +111,7 @@ public class RookBoss : MonoBehaviour {
         {
             if (tennis.transform.position.x > 5 || tennis.transform.position.x < -5 || tennis.transform.position.y > 5 || tennis.transform.position.y < -5)
                 Destroy(tennis);
+			//need to add an if it hit the player or the boss, then destroy
         }
 	}
 
@@ -154,8 +156,9 @@ public class RookBoss : MonoBehaviour {
     {
         //stuff about boss getting hit by sword and/or triggering contact damage to player goes here
         //projectiles created by boss will need to have their own script, sprite
-		if (other.gameObject.CompareTag("playerAttack")) {
+		if (other.gameObject.CompareTag("Attack")) {
 			Debug.Log ("Attacked");
+			takeDamage (25); //for testing, killed in 4 hits
 		}
     }
 }

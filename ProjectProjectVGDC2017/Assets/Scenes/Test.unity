@@ -170,7 +170,7 @@ GameObject:
   - component: {fileID: 474438083}
   m_Layer: 0
   m_Name: AttackCollider
-  m_TagString: Untagged
+  m_TagString: Attack
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -309,6 +309,12 @@ Prefab:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 114283849315729960, guid: 74e8cc6ac25778848a6aac662f5ea481,
+        type: 2}
+      propertyPath: tennisPrefab
+      value: 
+      objectReference: {fileID: 1621252669776232, guid: 9447385139750774d97d722c419918ba,
+        type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 74e8cc6ac25778848a6aac662f5ea481, type: 2}
   m_IsPrefabParent: 0
@@ -391,7 +397,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 5
-  playerAttack: {fileID: 0}
 --- !u!212 &1789974519
 SpriteRenderer:
   m_ObjectHideFlags: 0
