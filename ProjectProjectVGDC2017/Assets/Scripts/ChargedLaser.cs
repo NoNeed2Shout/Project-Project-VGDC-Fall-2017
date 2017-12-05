@@ -42,6 +42,8 @@ public class ChargedLaser : MonoBehaviour {
             if (timeStays == 0)
                 charging = 3; //use getPhase to get rid of lasers where getPhase() returns 3
         }
+        this.gameObject.GetComponent<BoxCollider2D>().size = new Vector2(xScale/2, yScale);
+        //this.gameObject.GetComponent<BoxCollider2D>().offset = new Vector2(0, y);
     }
     public int timeLeftInPlay() { return timeLeft + timeGrow + timeStays; } //if this ==0, attack ends - currently just despawn i guess
     public int getPhase() { return charging; }
@@ -54,11 +56,11 @@ public class ChargedLaser : MonoBehaviour {
         timeGrow = growthDuration; //time left launching - should be really short
         timeStays = linger; //time until end of attack
     }
-    void OnTriggerEnter2D(Collider2D other)
+    private void OnTriggerStay2D(Collider2D collision)
     {
-        if (other.gameObject.tag == "Player"&&charging==2)
+        if (other.gameObject.tag == "Player" && charging == 2)
         {
-            //Stuff happens when hitting player while laser is actually firing
+            Debug.Log("Laser hit in damage phase");
         }
     }
 }

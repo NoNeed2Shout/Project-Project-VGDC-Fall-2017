@@ -41,15 +41,13 @@ public class TennisProjectile : Projectile {
                 setSpeed(getSpeed() * 2);//doubles speed on reflect - subject to change on test
             }
         }
-        else
+        if (other.gameObject.tag == "Boss")
         {
-            if (other.gameObject.tag == "Boss")
+            Debug.Log("Hit boss");
+            if (reflected)
             {
                 other.GetComponent<RookBoss>().takeDamage(34);//since I've set it to 100 max health, for now each hit will be 1/3 of health
-			}
-            else if (other.gameObject.tag == "Player")
-            {
-                //player takes damage
+                Destroy(this.gameObject);
             }
         }
     }
