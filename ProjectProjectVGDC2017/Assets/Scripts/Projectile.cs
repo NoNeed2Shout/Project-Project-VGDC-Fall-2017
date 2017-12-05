@@ -68,6 +68,7 @@ public class Projectile : MonoBehaviour {
             //Stuff happens when hitting player
 			//the projectile should be destroyed
 			Debug.Log("Projectile hit player");
+			Destroy (gameObject);
         }
     }
 }

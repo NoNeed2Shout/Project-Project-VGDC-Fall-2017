@@ -58,7 +58,7 @@ public class ChargedLaser : MonoBehaviour {
     }
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if (other.gameObject.tag == "Player" && charging == 2)
+        if (collision.gameObject.tag == "Player" && charging == 2)
         {
             Debug.Log("Laser hit in damage phase");
         }

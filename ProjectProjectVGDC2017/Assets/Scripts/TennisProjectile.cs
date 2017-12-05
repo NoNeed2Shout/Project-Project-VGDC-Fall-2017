@@ -34,6 +34,8 @@ public class TennisProjectile : Projectile {
             if (other.gameObject.tag == "Player")
             {
                 //Stuff happens when hitting player
+				//player takes damage
+				Destroy(gameObject);
             }
             if (other.gameObject.tag=="Attack") //Assumes attack will produce a hitbox where the sword swing is and that hitbox will be tagged "Attack"
             {
@@ -43,9 +45,9 @@ public class TennisProjectile : Projectile {
         }
         if (other.gameObject.tag == "Boss")
         {
-            Debug.Log("Hit boss");
             if (reflected)
             {
+				Debug.Log("Hit boss");
                 other.GetComponent<RookBoss>().takeDamage(34);//since I've set it to 100 max health, for now each hit will be 1/3 of health
                 Destroy(this.gameObject);
             }

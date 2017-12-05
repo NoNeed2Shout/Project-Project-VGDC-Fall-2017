@@ -112,7 +112,17 @@ public class playerControl : MonoBehaviour {
 		//projectiles created by boss will need to have their own script, sprite
 		if (other.gameObject.CompareTag("Boss")) {
 			Debug.Log ("Player collides with boss");
+			//take damage
 		}
-		//Debug.Log ("Test");
+		if (other.gameObject.CompareTag("Projectile"))
+		{
+			//take damage
+
+		}
+		if (other.gameObject.CompareTag("TennisProjectile"))
+		{
+			//take damage
+
+		}
 	}
 }
