@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Boss
   - Attack
+  - Projectile
+  - TennisProjectile
   layers:
   - Default
   - TransparentFX
