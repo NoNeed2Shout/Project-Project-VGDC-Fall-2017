@@ -2,18 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-
+//
 
 public class playerControl : MonoBehaviour {
 
 	//private Rigidbody2D rb2d;
 
 	public float moveSpeed;
-
+	private int grayShots = 17, whiteShots=17; //projectile damage
 	private Animator anim;
-
 	private bool playerMoving;
-
+	private GameObject player;
 	private Vector2 lastMove;
 	private bool lightAttack;
 	private string direction;
@@ -24,8 +23,21 @@ public class playerControl : MonoBehaviour {
 		anim = GetComponent<Animator> ();
 		lastMove.y = -1f;
 		direction = "down";
+		player = GameObject.FindGameObjectWithTag ("Player");
+
 	}
-	
+	void playerTakeDamage(int amount)
+	{
+		player.GetComponent<HealthBar>().TakeDamage(amount);
+	}
+	bool playerDead()
+	{
+		return player.GetComponent<HealthBar>().PlayerDead ();
+	}
+	int getPlayerHealth()
+	{
+		return player.GetComponent<HealthBar> ().currentHealth;
+	}
 	// Update is called once per frame
 	void Update () {
 		if (!anim.GetCurrentAnimatorStateInfo (0).IsName ("Blend Tree")) {
@@ -33,7 +45,7 @@ public class playerControl : MonoBehaviour {
 		}
 		lightAttack = false;
 		playerMoving = false;
-
+		Debug.Log (getPlayerHealth ());
 
 
 		//player movements
@@ -117,12 +129,20 @@ public class playerControl : MonoBehaviour {
 		if (other.gameObject.CompareTag("Projectile"))
 		{
 			//take damage
+			playerTakeDamage(grayShots);
 
 		}
 		if (other.gameObject.CompareTag("TennisProjectile"))
 		{
 			//take damage
+			playerTakeDamage(whiteShots);
 
+		}
+		if (playerDead ()) 
+		{
+			//die
+			Debug.Log(getPlayerHealth());
+			Debug.Log ("Im dead");
 		}
 	}
 }
