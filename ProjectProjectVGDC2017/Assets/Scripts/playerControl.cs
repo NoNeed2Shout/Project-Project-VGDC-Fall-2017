@@ -9,7 +9,9 @@ public class playerControl : MonoBehaviour {
 	//private Rigidbody2D rb2d;
 
 	public float moveSpeed;
-	private int grayShots = 17, whiteShots=17; //projectile damage
+	private int grayShots = 17, whiteShots=17,laser=17; //projectile damage
+    private int iFrameLength = 30, iFramesLeft = 30; //30 invincibility frames right now, picked arbitrarily
+    private bool isInvuln = false;
 	private Animator anim;
 	private bool playerMoving;
 	private GameObject player;
@@ -45,9 +47,17 @@ public class playerControl : MonoBehaviour {
 		}
 		lightAttack = false;
 		playerMoving = false;
-		Debug.Log (getPlayerHealth ());
+		//Debug.Log (getPlayerHealth ());
 
-
+        if (isInvuln)
+        {
+            --iFramesLeft;
+            if (iFramesLeft == 0)
+            {
+                isInvuln = false;
+                iFramesLeft = iFrameLength;
+            }
+        }
 		//player movements
 		if ((Input.GetAxisRaw ("Horizontal") > 0.5f || Input.GetAxisRaw("Horizontal") < -0.5f) && (Input.GetAxisRaw ("Vertical") == 0f))
 		{
@@ -118,26 +128,34 @@ public class playerControl : MonoBehaviour {
 		anim.SetBool("animateAttack",lightAttack);
 	}
 
-	void OnTriggerEnter2D(Collider2D other)
-	{
-		//stuff about boss getting hit by sword and/or triggering contact damage to player goes here
-		//projectiles created by boss will need to have their own script, sprite
-		if (other.gameObject.CompareTag("Boss")) {
-			Debug.Log ("Player collides with boss");
-			//take damage
-		}
-		if (other.gameObject.CompareTag("Projectile"))
-		{
-			//take damage
-			playerTakeDamage(grayShots);
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        Debug.Log(getPlayerHealth());
+        if (!isInvuln)
+        {
+            //stuff about boss getting hit by sword and/or triggering contact damage to player goes here
+            //projectiles created by boss will need to have their own script, sprite
+            if (other.gameObject.CompareTag("Boss"))
+            {
+                Debug.Log("Player collides with boss");
+                isInvuln = true;
+                //take damage
+            }
+            if (other.gameObject.CompareTag("Projectile"))
+            {
+                //take damage
+                playerTakeDamage(grayShots);
+                isInvuln = true;
 
-		}
-		if (other.gameObject.CompareTag("TennisProjectile"))
-		{
-			//take damage
-			playerTakeDamage(whiteShots);
+            }
+            if (other.gameObject.CompareTag("TennisProjectile"))
+            {
+                //take damage
+                playerTakeDamage(whiteShots);
+                isInvuln = true;
 
-		}
+            }
+        }
 		if (playerDead ()) 
 		{
 			//die
@@ -145,4 +163,15 @@ public class playerControl : MonoBehaviour {
 			Debug.Log ("Im dead");
 		}
 	}
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (!isInvuln)
+        {
+            if (collision.gameObject.CompareTag("Laser"))
+            {
+                playerTakeDamage(laser);
+                isInvuln = true;
+            }
+        }
+    }
 }
