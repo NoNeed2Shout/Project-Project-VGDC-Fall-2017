@@ -15,6 +15,9 @@ public class ChargedLaser : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
+		if (boss == null) {
+			Destroy (gameObject);
+		}
         transform.position = new Vector2(boss.transform.position.x, y);
         transform.localScale = new Vector2(xScale, yScale);
         if (charging == 0) //actually charging - if boss should match player's x during this time, do that in the boss script

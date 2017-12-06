@@ -8,6 +8,7 @@ TagManager:
   - Attack
   - Projectile
   - TennisProjectile
+  - Laser
   layers:
   - Default
   - TransparentFX

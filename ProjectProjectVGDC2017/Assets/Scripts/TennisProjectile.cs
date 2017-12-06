@@ -17,6 +17,9 @@ public class TennisProjectile : Projectile {
 	
 	// Update is called once per frame
 	void Update () {
+		if (boss == null) {
+			Destroy (gameObject);
+		}
         if (!reflected)
         {
             setDirection(transform.position-player.transform.position); //should move straight at player initially

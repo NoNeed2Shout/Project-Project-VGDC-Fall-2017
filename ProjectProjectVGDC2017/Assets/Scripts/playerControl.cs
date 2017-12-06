@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 //
 
@@ -9,6 +10,8 @@ public class playerControl : MonoBehaviour {
 	//private Rigidbody2D rb2d;
 
 	public float moveSpeed;
+	public Text HP;
+
 	private int grayShots = 17, whiteShots=17,laser=17; //projectile damage
     private int iFrameLength = 30, iFramesLeft = 30; //30 invincibility frames right now, picked arbitrarily
     private bool isInvuln = false;
@@ -42,6 +45,7 @@ public class playerControl : MonoBehaviour {
 	}
 	// Update is called once per frame
 	void Update () {
+		HP.text = getPlayerHealth ().ToString();
 		if (!anim.GetCurrentAnimatorStateInfo (0).IsName ("Blend Tree")) {
 			gameObject.transform.GetChild (0).gameObject.SetActive (false);
 		}
